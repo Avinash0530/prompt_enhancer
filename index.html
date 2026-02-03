@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech to Text</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="a">
+        <h1 class="b">Prompt Enhancer...</h1>
+        <img src="static/path.png" height="100px" width="100px" />
+    </div>
+    <form id="form" method="POST" enctype="multipart/form-data">
+        <label>
+            <input type="radio" name="input_type" value="microphone" checked> Microphone
+        </label>
+        <label>
+            <input type="radio" name="input_type" value="text"> Text Input
+        </label>
+
+        <div id="microphone-input" class="form-group">
+            <label>Language:</label>
+            <div class="language-buttons">
+                <button type="button" class="lang-btn" data-lang="English">English</button>
+                <button type="button" class="lang-btn" data-lang="Telugu">Telugu</button>
+                <button type="button" class="lang-btn" data-lang="Tamil">Tamil</button>
+                <button type="button" class="lang-btn" data-lang="German">German</button>
+                <button type="button" class="lang-btn" data-lang="Chinese">Chinese</button>
+                <button type="button" class="lang-btn" data-lang="Hindi">Hindi</button>
+                <button type="button" class="lang-btn" data-lang="Korean">Korean</button>
+                <button type="button" class="lang-btn" data-lang="Spanish">Spanish</button>
+            </div>
+            <input type="hidden" id="language" name="language">
+            <button type="button" id="start-recording">Start Recording</button>
+            <button type="button" id="stop-recording" disabled>Submit</button>
+        </div>
+
+        <div id="text-input" class="form-group" style="display: none;">
+            <label for="text_input">Text Input:</label>
+            <textarea id="text_input" name="text_input" rows="4"></textarea>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <div id="loading" style="display: none;">Loading...</div>
+
+    <!-- Result boxes hidden initially -->
+    <div id="original-text" class="result-box1" style="display: none;"></div>
+    <div id="translated-text" class="result-box1" style="display: none;"></div>
+    <div id="corrected-text" class="result-box" style="display: none;"></div>
+    <div id="enhanced-prompt" class="result-box" style="display: none;"></div> 
+
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+    <script>
+        // Function to show the result boxes
+        function showResultBoxes() {
+            document.getElementById('corrected-text').style.display = 'block';
+            document.getElementById('enhanced-prompt').style.display = 'block';
+        }
+        function hideResultBoxes() {
+            document.getElementById('corrected-text').style.display = 'none';
+            document.getElementById('enhanced-prompt').style.display = 'none';
+        }
+        // Event listener for the submit button in text input mode
+        document.querySelector('#form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevents the form from submitting to the server
+            showResultBoxes(); // Show the result boxes
+        });
+
+        // Event listener for the stop-recording button
+        document.getElementById('stop-recording').addEventListener('click', function() {
+            showResultBoxes(); // Show the result boxes
+        });
+        document.getElementById('start-recording').addEventListener('click', function() {
+            hideResultBoxes(); // Hide the result boxes when recording starts
+        });
+    </script>
+</body>
+</html>
